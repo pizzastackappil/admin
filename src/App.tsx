@@ -1,25 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { CssBaseline } from "@mui/material";
+import buildCustomDataProvider from "ra-data-hasura";
+import React, { useEffect, useState } from "react";
+import { Admin, DataProvider, Loading, Resource } from "react-admin";
+import { MenuList } from "./modules/menu/components/menu-list/menu-list.components";
 
 function App() {
+  const [dataProvider, setDataProvider] = useState<DataProvider<string> | null>(
+    null
+  );
+  useEffect(() => {
+    const buildDataProvider = async () => {
+      const dp = await buildCustomDataProvider({
+        clientOptions: { uri: "http://localhost:8080/v1/graphql" },
+      });
+      setDataProvider(dp);
+    };
+    buildDataProvider();
+  }, []);
+
+  if (!dataProvider) {
+    return <Loading />;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <CssBaseline />
+
+      <Admin dataProvider={dataProvider}>
+        <Resource name="menu" list={MenuList} />
+      </Admin>
+    </>
   );
 }
 
