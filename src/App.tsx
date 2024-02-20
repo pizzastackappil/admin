@@ -1,15 +1,12 @@
 import { CssBaseline } from "@mui/material";
 import buildCustomDataProvider from "ra-data-hasura";
 import React, { useEffect, useState } from "react";
-import {
-  Admin,
-  DataProvider,
-  Loading,
-  Resource,
-} from "react-admin";
+import { Admin, DataProvider, Loading, Resource } from "react-admin";
 import { MenuList } from "@app/modules/menu/components/menu-list/menu-list.component";
 import { MenuEdit } from "@app/modules/menu/components/menu-edit/menu-edit.component";
 import { MenuCreate } from "@app/modules/menu/components/menu-create/menu-create.component";
+import { authProvider } from "./core/authProvider";
+import { apolloClient } from "./core/apollo-client";
 
 function App() {
   const [dataProvider, setDataProvider] = useState<DataProvider<string> | null>(
@@ -18,7 +15,7 @@ function App() {
   useEffect(() => {
     const buildDataProvider = async () => {
       const dp = await buildCustomDataProvider({
-        clientOptions: { uri: "http://localhost:8080/v1/graphql" },
+        client: apolloClient,
       });
       setDataProvider(dp);
     };
@@ -33,7 +30,11 @@ function App() {
     <>
       <CssBaseline />
 
-      <Admin dataProvider={dataProvider}>
+      <Admin
+        dataProvider={dataProvider}
+        authProvider={authProvider}
+        requireAuth
+      >
         <Resource
           name="menu"
           list={MenuList}
