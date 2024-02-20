@@ -20,6 +20,7 @@
     "graphql": "^16.8.1",
     "ra-data-hasura": "^0.6.0",
     "ra-i18n-polyglot": "^4.16.11",
+    "ra-language-hebrew-il": "^3.9.6",
     "ra-language-ukrainian": "^4.0.0",
     "react": "^18.2.0",
     "react-admin": "^4.16.10",
