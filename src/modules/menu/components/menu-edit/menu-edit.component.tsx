@@ -3,7 +3,7 @@ import { MenuEditTitle } from "./menu-edit-title.component";
 import { CloudinaryInput } from "@app/common/components/cloudinary-input/cloudinary-input.component";
 
 export const MenuEdit = () => (
-  <Edit title={<MenuEditTitle/>}>
+  <Edit title={<MenuEditTitle/>} mutationMode="pessimistic">
     <SimpleForm>
       <TextInput source="title" fullWidth label='Назва'/>
       <CloudinaryInput source="image" label="Фото"/>
